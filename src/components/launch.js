@@ -114,7 +114,7 @@ function Header({ launch }) {
   );
 }
 
-function TimeAndLocation({ launch }) {
+export function TimeAndLocation({ launch }) {
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
