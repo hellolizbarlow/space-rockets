@@ -8,6 +8,7 @@ import { formatDate } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
+import FavouriteButton, { TYPES } from "./favourite-button";
 
 const PAGE_SIZE = 12;
 
@@ -79,26 +80,29 @@ export function LaunchItem({ launch }) {
       />
 
       <Box p="6">
-        <Box d="flex" alignItems="baseline">
-          {launch.launch_success ? (
-            <Badge px="2" variant="solid" variantColor="green">
-              Successful
-            </Badge>
-          ) : (
-            <Badge px="2" variant="solid" variantColor="red">
-              Failed
-            </Badge>
-          )}
-          <Box
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-            ml="2"
-          >
-            {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
+        <Box d="flex" alignItems="center" justifyContent="space-between">
+          <Box>
+            {launch.launch_success ? (
+              <Badge px="2" variant="solid" variantColor="green">
+                Successful
+              </Badge>
+            ) : (
+              <Badge px="2" variant="solid" variantColor="red">
+                Failed
+              </Badge>
+            )}
+            <Box
+              color="gray.500"
+              fontWeight="semibold"
+              letterSpacing="wide"
+              fontSize="xs"
+              textTransform="uppercase"
+              mt="1"
+            >
+              {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
+            </Box>
           </Box>
+          <FavouriteButton type={TYPES.LAUNCH} item={launch}/>
         </Box>
 
         <Box
