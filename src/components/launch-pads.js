@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
+import FavouriteButton, { TYPES } from "./favourite-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
 
 const PAGE_SIZE = 12;
@@ -41,7 +42,7 @@ export default function LaunchPads() {
   );
 }
 
-function LaunchPadItem({ launchPad }) {
+export function LaunchPadItem({ launchPad }) {
   return (
     <Box
       as={Link}
@@ -53,27 +54,30 @@ function LaunchPadItem({ launchPad }) {
       position="relative"
     >
       <Box p="6">
-        <Box d="flex" alignItems="baseline">
-          {launchPad.status === "active" ? (
-            <Badge px="2" variant="solid" variantColor="green">
-              Active
-            </Badge>
-          ) : (
-            <Badge px="2" variant="solid" variantColor="red">
-              Retired
-            </Badge>
-          )}
-          <Box
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-            ml="2"
-          >
-            {launchPad.attempted_launches} attempted &bull;{" "}
-            {launchPad.successful_launches} succeeded
+        <Box d="flex" alignItems="center" justifyContent="space-between">
+          <Box>
+            {launchPad.status === "active" ? (
+              <Badge px="2" variant="solid" variantColor="green">
+                Active
+              </Badge>
+            ) : (
+              <Badge px="2" variant="solid" variantColor="red">
+                Retired
+              </Badge>
+            )}
+            <Box
+              color="gray.500"
+              fontWeight="semibold"
+              letterSpacing="wide"
+              fontSize="xs"
+              textTransform="uppercase"
+              mt="1"
+            >
+              {launchPad.attempted_launches} attempted &bull;{" "}
+              {launchPad.successful_launches} succeeded
+            </Box>
           </Box>
+          <FavouriteButton type={TYPES.LAUNCHPAD} item={launchPad}/>
         </Box>
 
         <Box

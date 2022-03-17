@@ -1,9 +1,8 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
 import { formatDateTime } from '../utils/format-date';
+import withWrapperComponents from './withWrapperComponents';
 
 import  { TimeAndLocation }  from './launch';
 
@@ -19,28 +18,18 @@ const defaultProps = {
   }
 }
 
-const setupComponent = () => {
-  const history = createMemoryHistory();
-  return (
-    <Router history={history}>
-      <TimeAndLocation {...defaultProps}/>
-    </Router>);
-};
-
 const originalTime = formatDateTime(defaultProps.launch.launch_date_local, true);
 const localtime = `Your local time: ${formatDateTime(defaultProps.launch.launch_date_local)}`;
 
 describe('TimeAndLocation', () => {
   test('Should display only original timezone initially', () => {
-    const component = setupComponent();
-    const { getByText, queryByText } = render(component);
+    const { getByText, queryByText } = render(withWrapperComponents(<TimeAndLocation {...defaultProps}/>));
     getByText(originalTime);
     expect(queryByText(localtime)).toBeNull();
   })
 
   test('Should display local timezone on hover', async () => {
-    const component = setupComponent();
-    const { getByText } = render(component);
+    const { getByText } = render(withWrapperComponents(<TimeAndLocation {...defaultProps}/>));
     const date = getByText(originalTime);
     userEvent.hover(date);
     await waitFor(() => getByText(localtime));
