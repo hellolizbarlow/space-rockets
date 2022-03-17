@@ -3,7 +3,7 @@ import React, { useEffect, useReducer } from "react";
 const initialFavourites = 
   localStorage.getItem("favourites")
   ? JSON.parse(localStorage.getItem("favourites"))
-  : [];
+  : {launches: [], launchPads: []};
 
 const FavouritesContext = React.createContext({
   favourites: initialFavourites,
