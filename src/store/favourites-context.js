@@ -51,8 +51,8 @@ const favouritesReducer = (state, action) => {
   }
 };
 
-export const FavouritesContextProvider = ({ children }) => {
-  const [favourites, dispatchFavourites] = useReducer(favouritesReducer, initialFavourites)
+export const FavouritesContextProvider = ({ children, initialFaves = initialFavourites }) => {
+  const [favourites, dispatchFavourites] = useReducer(favouritesReducer, initialFaves)
 
   useEffect(() => {
     localStorage.setItem(
