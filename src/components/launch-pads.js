@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/core";
+import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import Error from "./error";
@@ -57,11 +57,11 @@ export function LaunchPadItem({ launchPad }) {
         <Box d="flex" alignItems="center" justifyContent="space-between">
           <Box>
             {launchPad.status === "active" ? (
-              <Badge px="2" variant="solid" variantColor="green">
+              <Badge px="2" variant="solid" colorScheme="green">
                 Active
               </Badge>
             ) : (
-              <Badge px="2" variant="solid" variantColor="red">
+              <Badge px="2" variant="solid" colorScheme="red">
                 Retired
               </Badge>
             )}

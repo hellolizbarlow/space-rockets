@@ -11,7 +11,7 @@ import {
     Heading,
     SimpleGrid,
     Divider
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { LaunchItem } from "./launches";
 import { LaunchPadItem } from "./launch-pads";
 import FavouritesContext from "../store/favourites-context";

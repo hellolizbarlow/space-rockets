@@ -14,8 +14,8 @@ import {
   Text,
   Spinner,
   Stack,
-  AspectRatioBox,
-} from "@chakra-ui/core";
+  AspectRatio,
+} from "@chakra-ui/react";
 
 import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
@@ -93,16 +93,16 @@ function Header({ launchPad }) {
         {launchPad.site_name_long}
       </Heading>
       <Stack isInline spacing="3" align="center">
-        <Badge variantColor="purple" fontSize={["sm", "md"]}>
+        <Badge colorScheme="purple" fontSize={["sm", "md"]}>
           {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
           successful
         </Badge>
         {launchPad.stats === "active" ? (
-          <Badge variantColor="green" fontSize={["sm", "md"]}>
+          <Badge colorScheme="green" fontSize={["sm", "md"]}>
             Active
           </Badge>
         ) : (
-          <Badge variantColor="red" fontSize={["sm", "md"]}>
+          <Badge colorScheme="red" fontSize={["sm", "md"]}>
             Retired
           </Badge>
         )}
@@ -142,13 +142,13 @@ function LocationAndVehicles({ launchPad }) {
 
 function Map({ location }) {
   return (
-    <AspectRatioBox ratio={16 / 5}>
+    <AspectRatio ratio={16 / 5}>
       <Box
         as="iframe"
         src={`https://maps.google.com/maps?q=${location.latitude}, ${location.longitude}&z=15&output=embed`}
         alt="demo"
       />
-    </AspectRatioBox>
+    </AspectRatio>
   );
 }
 

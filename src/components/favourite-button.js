@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { IconButton } from '@chakra-ui/core';
+import { IconButton } from '@chakra-ui/react';
 import { Star } from "react-feather";
 import FavouritesContext from '../store/favourites-context';
 
