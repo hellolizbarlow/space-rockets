@@ -113,6 +113,7 @@ function PageLink({ url, label, image, imageWidth, ...position }) {
         position="absolute"
         {...position}
         width={imageWidth}
+        aria-label={label}
        >
         <HoverWiggle>
           <Image
