@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Tooltip, Link, Image } from "@chakra-ui/react";
 import { Link as BrowserLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import HoverScale from "./animations/hover-scale";
 import HoverWiggle from "./animations/hover-wiggle";
 
 export default function Home() {
