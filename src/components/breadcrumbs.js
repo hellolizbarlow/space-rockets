@@ -11,7 +11,9 @@ import { ChevronsRight } from "react-feather";
 export default function Breadcrumbs({ items }) {
   return (
     <Breadcrumb
-      m="6"
+      px="6"
+      py="2"
+      bg="gray.700"
       spacing="1"
       separator={<Box w="1em" h="1em" as={ChevronsRight} color="gray.300" />}
     >

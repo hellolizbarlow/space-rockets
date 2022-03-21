@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 
 import { useSpaceXPaginated } from "../utils/use-space-x";
 import { formatDate } from "../utils/format-date";
+import randomColor from "../utils/randomColor";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import FavouriteButton, { TYPES } from "./favourite-button";
-import HoverCard from './animations/hover-card';
+import HoverScale from './animations/hover-scale';
 
 const PAGE_SIZE = 12;
 
@@ -49,7 +50,7 @@ export default function Launches() {
 
 export function LaunchItem({ launch }) {
   return (
-    <HoverCard>
+    <HoverScale>
       <Box
         as={Link}
         to={`/launches/${launch.flight_number.toString()}`}
@@ -61,6 +62,7 @@ export function LaunchItem({ launch }) {
         position="relative"
       >
         <Image
+          bg={`linear-gradient(${randomColor()}, ${randomColor()})`}
           src={
             launch.links.flickr_images[0]?.replace("_o.jpg", "_z.jpg") ??
             launch.links.mission_patch_small
@@ -125,6 +127,6 @@ export function LaunchItem({ launch }) {
           </Flex>
         </Box>
       </Box>
-    </HoverCard>
+    </HoverScale>
   );
 }

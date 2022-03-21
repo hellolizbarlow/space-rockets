@@ -7,7 +7,7 @@ import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import FavouriteButton, { TYPES } from "./favourite-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
-import HoverCard from "./animations/hover-card";
+import HoverScale from "./animations/hover-scale";
 
 const PAGE_SIZE = 12;
 
@@ -45,7 +45,7 @@ export default function LaunchPads() {
 
 export function LaunchPadItem({ launchPad }) {
   return (
-    <HoverCard>
+    <HoverScale>
       <Box
         as={Link}
         to={`/launch-pads/${launchPad.site_id}`}
@@ -97,6 +97,6 @@ export function LaunchPadItem({ launchPad }) {
           </Text>
         </Box>
       </Box>
-    </HoverCard>
+    </HoverScale>
   );
 }

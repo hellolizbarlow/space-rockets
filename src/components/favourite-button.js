@@ -42,7 +42,8 @@ export default function FavouriteButton({type, item}) {
         borderRadius="50%"
         cursor="pointer"
         aria-label={isFavourite ? "Unfavourite" : "Favourite"}
-        fill={isFavourite ? "#FFE338" : "none"}
+        fill={isFavourite ? "orange.400" : "none"}
+        stroke={isFavourite ? "orange.400" : "white"}
       />
     </motion.div>
   )

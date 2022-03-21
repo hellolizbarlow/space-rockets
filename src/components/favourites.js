@@ -7,14 +7,20 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
-    Button,
+    IconButton,
     Heading,
     SimpleGrid,
-    Divider
+    Box,
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
 } from '@chakra-ui/react';
 import { LaunchItem } from "./launches";
 import { LaunchPadItem } from "./launch-pads";
 import FavouritesContext from "../store/favourites-context";
+import { Star } from "react-feather";
 
 export default function FavouritesDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -22,9 +28,19 @@ export default function FavouritesDrawer() {
 
   return (
     <>
-      <Button color="black" onClick={onOpen}>
-        Favourites
-      </Button>
+    <Box>
+      <IconButton
+        onClick={onOpen}
+        as={Star}
+        size="md"
+        p={2}
+        bg="none"
+        cursor="pointer"
+        aria-label={"Favourites"}
+        fill="orange.400"
+        stroke="orange.400"
+      />
+      </Box>
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -37,17 +53,18 @@ export default function FavouritesDrawer() {
           <DrawerCloseButton />
           <DrawerHeader>Favourites</DrawerHeader>
           <DrawerBody pb={6}>
-            <FavouritesSection 
-              name="Launches" 
-              data={favourites.launches}
-              mapFunction={launch => <LaunchItem key={launch.flight_number} launch={launch}/>}
-            />
-            <Divider my={8} />
-            <FavouritesSection 
-              name="Launch Pads" 
-              data={favourites.launchPads}
-              mapFunction={launchPad => <LaunchPadItem key={launchPad.site_id} launchPad={launchPad}/>}
-            />
+            <Accordion defaultIndex={[0]} allowMultiple>
+              <FavouritesSection 
+                name="Launches" 
+                data={favourites.launches}
+                mapFunction={launch => <LaunchItem key={launch.flight_number} launch={launch}/>}
+              />
+              <FavouritesSection 
+                name="Launch Pads" 
+                data={favourites.launchPads}
+                mapFunction={launchPad => <LaunchPadItem key={launchPad.site_id} launchPad={launchPad}/>}
+              />
+            </Accordion>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
@@ -57,13 +74,20 @@ export default function FavouritesDrawer() {
 
 function FavouritesSection({name, data, mapFunction}) {
   return (
-    <>
-      <SimpleGrid spacing="4">
-        <Heading as='h3' size='sm'>
-          {name} ({data.length})
-        </Heading>
-        {data.map(item => mapFunction(item))}
-      </SimpleGrid>
-    </>
+    <AccordionItem>
+      <Heading as='h3' size='sm'>
+        <AccordionButton justifyContent="space-between">
+          <Box>
+            {name} ({data.length})
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+      </Heading>
+      <AccordionPanel px={0.5} p={4}>
+        <SimpleGrid spacingY="4">
+          {data.map(item => mapFunction(item))}
+        </SimpleGrid>
+      </AccordionPanel>
+    </AccordionItem>
   )
 }

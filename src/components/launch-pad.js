@@ -10,12 +10,16 @@ import {
   StatNumber,
   StatHelpText,
   SimpleGrid,
+  Grid, 
+  GridItem,
   Box,
   Text,
   Spinner,
   Stack,
   AspectRatio,
+  Divider,
 } from "@chakra-ui/react";
+import randomColor from "../utils/randomColor";
 
 import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
@@ -54,19 +58,19 @@ export default function LaunchPad() {
       />
       <Header launchPad={launchPad} />
       <Box m={[3, 6]}>
-        <LocationAndVehicles launchPad={launchPad} />
-        <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
-          {launchPad.details}
-        </Text>
-        <Map location={launchPad.location} />
+        <Grid gap={4} templateColumns={['repeat(1, 1fr)', null, 'repeat(2, 1fr)', 'repeat(3, 1fr)']} >
+          <GridItem>
+            <LocationAndVehicles launchPad={launchPad} />
+          </GridItem>
+          <GridItem colSpan={[1, 1, 1, 2]}>
+            <Map location={launchPad.location} />
+          </GridItem>
+        </Grid>
         <RecentLaunches launches={launches} />
       </Box>
     </div>
   );
 }
-
-const randomColor = (start = 200, end = 250) =>
-  `hsl(${start + end * Math.random()}, 80%, 90%)`;
 
 function Header({ launchPad }) {
   return (
@@ -82,17 +86,21 @@ function Header({ launchPad }) {
       alignItems="flex-end"
       justifyContent="space-between"
     >
-      <Heading
-        color="gray.900"
-        display="inline"
-        mx={[2, 4]}
-        my="2"
-        fontSize={["md", "3xl"]}
-        borderRadius="lg"
-      >
-        {launchPad.site_name_long}
-      </Heading>
-      <Stack isInline spacing="3" align="center">
+      <Box>
+        <Heading
+          color="gray.900"
+          display="inline-block"
+          mt="4"
+          fontSize={["md", "3xl"]}
+          borderRadius="lg"
+        >
+          {launchPad.site_name_long}
+        </Heading>
+        <Text maxW={800} color="gray.700" fontWeight="semibold" fontSize={"md"} mt="4" mb="8">
+          {launchPad.details}
+        </Text>
+      </Box>
+      <Stack isInline spacing="3" align="center" bg="blackAlpha.700" borderRadius="md" px="2" py="0.5">
         <Badge colorScheme="purple" fontSize={["sm", "md"]}>
           {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
           successful
@@ -114,8 +122,8 @@ function Header({ launchPad }) {
 
 function LocationAndVehicles({ launchPad }) {
   return (
-    <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
-      <Stat>
+    <SimpleGrid spacing="4" borderRadius="md">
+      <Stat borderWidth="1px" p="4" borderRadius="md">
         <StatLabel display="flex">
           <Box as={MapPin} width="1em" />{" "}
           <Box ml="2" as="span">
@@ -125,7 +133,7 @@ function LocationAndVehicles({ launchPad }) {
         <StatNumber fontSize="xl">{launchPad.location.name}</StatNumber>
         <StatHelpText>{launchPad.location.region}</StatHelpText>
       </Stat>
-      <Stat>
+      <Stat borderWidth="1px" p="4" borderRadius="md">
         <StatLabel display="flex">
           <Box as={Navigation} width="1em" />{" "}
           <Box ml="2" as="span">
@@ -157,15 +165,18 @@ function RecentLaunches({ launches }) {
     return null;
   }
   return (
-    <Stack my="8" spacing="3">
-      <Text fontSize="xl" fontWeight="bold">
-        Last launches
-      </Text>
-      <SimpleGrid minChildWidth="350px" spacing="4">
-        {launches.map((launch) => (
-          <LaunchItem launch={launch} key={launch.flight_number} />
-        ))}
-      </SimpleGrid>
-    </Stack>
+    <>
+      <Divider my="8"/>
+      <Stack my="8" spacing="3">
+        <Text fontSize="xl" fontWeight="bold">
+          Last launches
+        </Text>
+        <SimpleGrid minChildWidth="350px" spacing="4">
+          {launches.map((launch) => (
+            <LaunchItem launch={launch} key={launch.flight_number} />
+          ))}
+        </SimpleGrid>
+      </Stack>
+    </>
   );
 }

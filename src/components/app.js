@@ -1,6 +1,6 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import { Flex, Text } from "@chakra-ui/react";
+import { Routes, Route, Link as BrowserLink, useLocation } from "react-router-dom";
+import { Flex, Text, Link, HStack } from "@chakra-ui/react";
 
 import Launches from "./launches";
 import Launch from "./launch";
@@ -38,15 +38,35 @@ function NavBar() {
       bg="gray.800"
       color="white"
     >
-      <Text
-        fontFamily="mono"
-        letterSpacing="2px"
-        fontWeight="bold"
-        fontSize="lg"
-      >
-        ¡SPACE·R0CKETS!
-      </Text>
-      <FavouritesDrawer/>
+      <Link as={BrowserLink} to={'/'} variant="noDecoration">
+        <Text
+          bgGradient='linear(to-r, #fd1d1d, #fcb045)'
+          bgClip='text'
+          fontFamily="mono"
+          letterSpacing="2px"
+          fontWeight="bold"
+          fontSize="2xl"
+        >
+          ¡SPACE·R0CKETS!
+        </Text>
+      </Link>
+      <HStack spacing={6}>
+        <NavLink url="/launches" label="Launches"/>
+        <NavLink url="/launch-pads" label="Launch Pads"/>
+        <FavouritesDrawer/>
+      </HStack>
     </Flex>
   );
+}
+
+function NavLink({label, url}) {
+  const isCurrentPage = useLocation().pathname.includes(url);
+  return (
+    <Link as={BrowserLink} to={url}>
+      <Text 
+        fontSize='md'
+        fontWeight={isCurrentPage ? 'bold' : 'normal'}
+      >{label}</Text>
+      </Link>
+  )
 }
