@@ -16,6 +16,7 @@ import {
     AccordionButton,
     AccordionPanel,
     AccordionIcon,
+    Text
 } from '@chakra-ui/react';
 import { LaunchItem } from "./launches";
 import { LaunchPadItem } from "./launch-pads";
@@ -53,7 +54,7 @@ export default function FavouritesDrawer() {
           <DrawerCloseButton />
           <DrawerHeader>Favourites</DrawerHeader>
           <DrawerBody pb={6}>
-            <Accordion defaultIndex={[0]} allowMultiple>
+            <Accordion defaultIndex={favourites.launches.length === 0 && favourites.launchPads.length > 0 ? [1] : [0]} allowMultiple>
               <FavouritesSection 
                 name="Launches" 
                 data={favourites.launches}
@@ -77,15 +78,15 @@ function FavouritesSection({name, data, mapFunction}) {
     <AccordionItem>
       <Heading as='h3' size='sm'>
         <AccordionButton justifyContent="space-between">
-          <Box>
+          <Text fontWeight="bold">
             {name} ({data.length})
-          </Box>
+          </Text>
           <AccordionIcon />
         </AccordionButton>
       </Heading>
       <AccordionPanel px={0.5} p={4}>
         <SimpleGrid spacingY="4">
-          {data.map(item => mapFunction(item))}
+          {data.length > 0 ? data.map(item => mapFunction(item)) : `No favourited ${name}`}
         </SimpleGrid>
       </AccordionPanel>
     </AccordionItem>
