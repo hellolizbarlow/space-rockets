@@ -1,4 +1,5 @@
 import React from 'react';
+import '../utils/match-media.mock';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { formatDateTime } from '../utils/format-date';
