@@ -17,16 +17,19 @@ import {
   Image,
   Link,
   Stack,
-  AspectRatioBox,
+  AspectRatio,
   StatGroup,
   Tooltip
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
+import randomColor from "../utils/randomColor";
 
 import { useSpaceX } from "../utils/use-space-x";
 import { formatDateTime } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import FavouriteButton, { TYPES } from "./favourite-button";
+import Carousel from "./carousel";
+
 
 export default function Launch() {
   let { launchId } = useParams();
@@ -52,22 +55,41 @@ export default function Launch() {
       />
       <Header launch={launch} />
       <Box m={[3, 6]}>
-        <TimeAndLocation launch={launch} />
-        <RocketInfo launch={launch} />
-        <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
-          {launch.details}
-        </Text>
-        <Video launch={launch} />
-        <Gallery images={launch.links.flickr_images} />
+        <SimpleGrid spacing={4} columns={[1, 1, 2]}>
+          <Box>
+            <TimeAndLocation launch={launch} />
+            <RocketInfo launch={launch} />
+          </Box>
+          <Box borderRadius="md" overflow="hidden">
+            <Carousel>
+              <Video launch={launch} />
+              {launch.links.flickr_images.map((image) => 
+                <Box key={image} bg="gray.800">
+                  <Image
+                    src={image.replace("_o.jpg", "_z.jpg")}
+                    height={["230px", "400px"]}
+                    width="auto"
+                    display="block"
+                    margin="auto"
+                  />
+                </Box>
+              )}
+            </Carousel>
+          </Box>
+        </SimpleGrid>
       </Box>
     </div>
   );
 }
 
 function Header({ launch }) {
+  const bkgImage = launch.links.flickr_images[0] ? 
+    `url(${launch.links.flickr_images[0]})` : 
+    `linear-gradient(${randomColor()}, ${randomColor()})`;
+
   return (
     <Flex
-      bgImage={`url(${launch.links.flickr_images[0]})`}
+      bgImage={`linear-gradient(to left,rgba(0,0,0,0),rgba(26,32,44,0.8)), ${bkgImage}`}
       bgPos="center"
       bgSize="cover"
       bgRepeat="no-repeat"
@@ -86,27 +108,29 @@ function Header({ launch }) {
         objectFit="contain"
         objectPosition="bottom"
       />
-      <Heading
-        color="white"
-        display="inline"
-        backgroundColor="#718096b8"
-        fontSize={["lg", "5xl"]}
-        px="4"
-        py="2"
-        borderRadius="lg"
-      >
-        {launch.mission_name}
-      </Heading>
-      <Stack isInline spacing="3" align="center">
-        <Badge variantColor="purple" fontSize={["xs", "md"]}>
+      <Box maxW={800}>
+        <Heading
+          color="white"
+          display="inline"
+          fontSize={["lg", "5xl"]}
+          py="2"
+        >
+          {launch.mission_name}
+        </Heading>
+        <Text color="white" fontSize="md" fontWeight="semibold" mt="4" mb="8">
+          {launch.details}
+        </Text>
+        </Box>
+      <Stack isInline spacing="3" align="center" bg="blackAlpha.700" borderRadius="md" px="2" py="0.5">
+        <Badge colorScheme="purple" fontSize={["xs", "md"]}>
           #{launch.flight_number}
         </Badge>
         {launch.launch_success ? (
-          <Badge variantColor="green" fontSize={["xs", "md"]}>
+          <Badge colorScheme="green" fontSize={["xs", "md"]}>
             Successful
           </Badge>
         ) : (
-          <Badge variantColor="red" fontSize={["xs", "md"]}>
+          <Badge colorScheme="red" fontSize={["xs", "md"]}>
             Failed
           </Badge>
         )}
@@ -118,38 +142,42 @@ function Header({ launch }) {
 
 export function TimeAndLocation({ launch }) {
   return (
-    <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
-      <Stat>
-        <StatLabel display="flex">
-          <Box as={Watch} width="1em" />{" "}
-          <Box ml="2" as="span">
-            Launch Date
-          </Box>
-        </StatLabel>
-        <StatNumber fontSize={["md", "xl"]}>
-            <Tooltip hasArrow label={`Your local time: ${formatDateTime(launch.launch_date_local)}`} placement='top'>
-                {formatDateTime(launch.launch_date_local, true)}
-            </Tooltip>
-        </StatNumber>
-        <StatHelpText>{timeAgo(launch.launch_date_utc)}</StatHelpText>
-      </Stat>
-      <Stat>
-        <StatLabel display="flex">
-          <Box as={MapPin} width="1em" />{" "}
-          <Box ml="2" as="span">
-            Launch Site
-          </Box>
-        </StatLabel>
-        <StatNumber fontSize={["md", "xl"]}>
-          <Link
-            as={RouterLink}
-            to={`/launch-pads/${launch.launch_site.site_id}`}
-          >
-            {launch.launch_site.site_name_long}
-          </Link>
-        </StatNumber>
-        <StatHelpText>{launch.launch_site.site_name}</StatHelpText>
-      </Stat>
+    <SimpleGrid rows={2} spacing={4}>
+      <Box borderWidth="1px" borderRadius="md" p={4}>
+        <Stat>
+          <StatLabel display="flex">
+            <Box as={Watch} width="1em" />{" "}
+            <Box ml="2" as="span">
+              Launch Date
+            </Box>
+          </StatLabel>
+          <StatNumber fontSize={["md", "xl"]}>
+              <Tooltip hasArrow label={`Your local time: ${formatDateTime(launch.launch_date_local)}`} placement='top'>
+                  {formatDateTime(launch.launch_date_local, true)}
+              </Tooltip>
+          </StatNumber>
+          <StatHelpText>{timeAgo(launch.launch_date_utc)}</StatHelpText>
+        </Stat>
+      </Box>
+      <Box borderWidth="1px" borderRadius="md" p={4}>
+        <Stat>
+          <StatLabel display="flex">
+            <Box as={MapPin} width="1em" />{" "}
+            <Box ml="2" as="span">
+              Launch Site
+            </Box>
+          </StatLabel>
+          <StatNumber fontSize={["md", "xl"]}>
+            <Link
+              as={RouterLink}
+              to={`/launch-pads/${launch.launch_site.site_id}`}
+            >
+              {launch.launch_site.site_name_long}
+            </Link>
+          </StatNumber>
+          <StatHelpText>{launch.launch_site.site_name}</StatHelpText>
+        </Stat>
+      </Box>
     </SimpleGrid>
   );
 }
@@ -220,25 +248,13 @@ function RocketInfo({ launch }) {
 
 function Video({ launch }) {
   return (
-    <AspectRatioBox maxH="400px" ratio={1.7}>
+    <AspectRatio maxH="400px" ratio={1.7}>
       <Box
         as="iframe"
         title={launch.mission_name}
         src={`https://www.youtube.com/embed/${launch.links.youtube_id}`}
         allowFullScreen
       />
-    </AspectRatioBox>
-  );
-}
-
-function Gallery({ images }) {
-  return (
-    <SimpleGrid my="6" minChildWidth="350px" spacing="4">
-      {images.map((image) => (
-        <a href={image} key={image}>
-          <Image src={image.replace("_o.jpg", "_z.jpg")} />
-        </a>
-      ))}
-    </SimpleGrid>
+    </AspectRatio>
   );
 }

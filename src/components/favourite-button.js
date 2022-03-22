@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
-import { IconButton } from '@chakra-ui/core';
+import { IconButton } from '@chakra-ui/react';
 import { Star } from "react-feather";
 import FavouritesContext from '../store/favourites-context';
+import { motion } from "framer-motion";
+
 
 export const TYPES = {
   LAUNCH: "LAUNCH",
@@ -28,14 +30,21 @@ export default function FavouriteButton({type, item}) {
 }
 
   return (
-    <IconButton
-      onClick={handleClick}
-      as={Star}
-      size="md"
-      p={2}
-      cursor="pointer"
-      aria-label={isFavourite ? "Unfavourite" : "Favourite"}
-      fill={isFavourite ? "#FFE338" : "none"}
-    />
+    <motion.div
+      whileTap={{ rotate: 180, scale: 1.4 }}
+    >
+      <IconButton
+        onClick={handleClick}
+        as={Star}
+        size="md"
+        p={2}
+        bg="none"
+        borderRadius="50%"
+        cursor="pointer"
+        aria-label={isFavourite ? "Unfavourite" : "Favourite"}
+        fill={isFavourite ? "orange.400" : "none"}
+        stroke={isFavourite ? "orange.400" : "white"}
+      />
+    </motion.div>
   )
 }

@@ -1,17 +1,16 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { ThemeProvider, CSSReset } from "@chakra-ui/core";
+import { ChakraProvider } from "@chakra-ui/react";
 import { FavouritesContextProvider } from '../store/favourites-context';
 
 const withWrapperComponents = (Component, initialFavourites) => (
   <Router history={createMemoryHistory()}>
-    <ThemeProvider>
-      <CSSReset/>
+    <ChakraProvider>
       <FavouritesContextProvider initialFaves={initialFavourites}>
         {Component}
       </FavouritesContextProvider>
-    </ThemeProvider>
+    </ChakraProvider>
   </Router>
 );
 
