@@ -85,15 +85,6 @@ export default function Home() {
           </Tooltip>
         </motion.div>
       </Box>
-      {/* <Image
-        position="absolute"
-        top="0"
-        right="0"
-        src={"/images/roadster.svg"}
-        height={["200px", "20vw"]}
-        objectFit="contain"
-        objectPosition="bottom"
-      /> */}
     </Box>
   );
 }
