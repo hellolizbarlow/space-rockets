@@ -88,8 +88,8 @@ const favourites = {
 
 describe('FavouritesDrawer', () => {
   test('Should display favourites in drawer', async () => {
-    const { getByRole, getByText } = render(withWrapperComponents(<FavouritesDrawer/>, favourites));
-    userEvent.click(getByRole("button"));
+    const { getByLabelText, getByText } = render(withWrapperComponents(<FavouritesDrawer/>, favourites));
+    userEvent.click(getByLabelText("Favourites"));
     await waitFor(() => getByText(favourites.launches[0].mission_name));
     getByText(favourites.launches[1].mission_name);
     getByText(favourites.launchPads[0].name);
@@ -97,8 +97,8 @@ describe('FavouritesDrawer', () => {
   })
 
   test('Clicking on favourite in drawer will remove', async () => {
-    const { getByRole, getByText, queryByText } = render(withWrapperComponents(<FavouritesDrawer/>, favourites));
-    userEvent.click(getByRole("button"));
+    const { getByLabelText, getByText, queryByText } = render(withWrapperComponents(<FavouritesDrawer/>, favourites));
+    userEvent.click(getByLabelText("Favourites"));
     await waitFor(() => getByText(favourites.launches[0].mission_name));
     const launchItem = getByText(favourites.launches[0].mission_name).closest('a');
     userEvent.click(within(launchItem).getByLabelText("Unfavourite"));
